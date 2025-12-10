@@ -37,8 +37,19 @@ A comprehensive tool to aggregate, filter, and summarize recent AI-related discu
     SEARCH_API_KEY=your_google_key
     SEARCH_ENGINE_ID=your_engine_id
     OPENAI_API_KEY=your_openai_key
-    LINKEDIN_KEYWORDS=Artificial Intelligence, Generative AI, LLM
     ```
+
+### Detailed Setup: Getting the Search Engine ID
+To use the Google Custom Search API, you need a Programmable Search Engine that includes LinkedIn.
+
+1.  Go to the [Programmable Search Engine Console](https://programmablesearchengine.google.com/).
+2.  Click **Add**.
+3.  **Name**: e.g., "LinkedIn AI Search".
+4.  **What to search?**: Select **Search specific sites or pages**.
+5.  **Sites to Search**: Add `www.linkedin.com/posts/*`.
+6.  Click **Create**.
+7.  Copy the **search engine ID** (it looks like `cx=...` or a long string) and paste it into your `.env` as `SEARCH_ENGINE_ID`.
+8.  *Note: Ensure your Google Cloud Project associated with the API Key has the "Custom Search API" enabled.*
 
 ## Usage
 
