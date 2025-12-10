@@ -1,49 +1,49 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import axios from 'axios';
 import { config } from './config';
 import dotenv from 'dotenv';
 dotenv.config();
 
 async function listModels() {
-    if (!config.GEMINI_API_KEY) {
+    const key = config.GEMINI_API_KEY;
+    if (!key) {
         console.error('❌ No GEMINI_API_KEY found in .env');
         return;
     }
 
-    const genAI = new GoogleGenerativeAI(config.GEMINI_API_KEY);
+    console.log(`🔑 Using API Key: ${key.substring(0, 4)}...${key.substring(key.length - 4)}`);
+    console.log('🔍 Listing available models via REST API...');
 
     try {
-        // This is the correct way to get the model list if supported by SDK. 
-        // Note: older SDKs might not expose listModels directly on the main class 
-        // but usually it's accessible via the API.
-        // However, @google/generative-ai simplifies this. 
-        // If listModels isn't on the client, we try making a raw request or just testing known models.
+        const response = await axios.get(
+            `https://generativelanguage.googleapis.com/v1beta/models?key=${key}`
+        );
 
-        // Actually, looking at the SDK docs, there isn't a direct `listModels` on `GoogleGenerativeAI`.
-        // We have to assume standard models.
-        // Let's test connectivity to a few known models instead.
-
-        const modelsToTest = ['gemini-1.5-flash', 'gemini-1.5-flash-001', 'gemini-pro', 'gemini-1.0-pro'];
-
-        console.log('🔍 Testing connectivity for Gemini models...');
-
-        for (const modelName of modelsToTest) {
-            process.stdout.write(`Testing ${modelName}... `);
-            try {
-                const model = genAI.getGenerativeModel({ model: modelName });
-                const result = await model.generateContent("Hello, are you there?");
-                const response = await result.response;
-                console.log(`✅ OK (Response length: ${response.text().length})`);
-            } catch (error: any) {
-                if (error.message.includes('404')) {
-                    console.log(`❌ 404 Not Found`);
-                } else {
-                    console.log(`❌ Error: ${error.message}`);
+        const models = response.data.models;
+        if (models && models.length > 0) {
+            console.log('✅ Connected! Available Models:');
+            models.forEach((m: any) => {
+                if (m.supportedGenerationMethods?.includes('generateContent')) {
+                    console.log(`   - ${m.name.replace('models/', '')} (${m.displayName})`);
                 }
-            }
+            });
+            console.log('\n✅ Your API Key works. Please update src/processor.ts with one of the models above if needed.');
+        } else {
+            console.log('⚠️ API connected but returned no models.');
         }
 
-    } catch (error) {
-        console.error('Error listing models:', error);
+    } catch (error: any) {
+        console.error('❌ Error listing models:', error.message);
+        if (axios.isAxiosError(error)) {
+            console.error('   Status:', error.response?.status);
+            console.error('   Data:', JSON.stringify(error.response?.data, null, 2));
+
+            if (error.response?.status === 400 && error.response.data?.error?.message?.includes('API_KEY_INVALID')) {
+                console.error('\n👉 Cause: The API Key is invalid.');
+            }
+            else if (error.response?.status === 403) {
+                console.error('\n👉 Cause: The API Key is valid but lacks permission. Ensure "Generative Language API" is enabled in Google Cloud Console.');
+            }
+        }
     }
 }
 
