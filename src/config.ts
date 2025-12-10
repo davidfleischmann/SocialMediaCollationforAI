@@ -11,4 +11,6 @@ export const config = {
     DETAIL_LEVEL: process.env.DETAIL_LEVEL || 'brief',
     GENERATE_AUDIO: process.env.GENERATE_AUDIO === 'true',
     MAX_POSTS: parseInt(process.env.MAX_POSTS || '20', 10),
+    TEAMS_WEBHOOK_URL: process.env.TEAMS_WEBHOOK_URL || '',
+    PUBLISH_TO_TEAMS: process.env.PUBLISH_TO_TEAMS === 'true',
 };
