@@ -19,6 +19,7 @@
     "cheerio": "^1.1.2",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.3",
+    "google-tts-api": "^2.0.2",
     "marked": "^17.0.1",
     "node-cron": "^4.2.1",
     "ts-node": "^10.9.2",
