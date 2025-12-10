@@ -22,7 +22,7 @@ export class Processor {
         const postsText = posts.map(p => `- Title: ${p.title}\n  Snippet: ${p.snippet}\n  Link: ${p.link}`).join('\n\n');
 
         try {
-            const model = this.genAI.getGenerativeModel({ model: "gemini-pro" });
+            const model = this.genAI.getGenerativeModel({ model: "gemini-1.5-flash-001" });
 
             const prompt = `You are an expert tech newsletter writer. Summarize the following LinkedIn posts into a concise, engaging daily AI update. Focus on the key trends and interesting points. Output in Markdown.\n\nHere are the top LinkedIn posts from the last 24 hours:\n${postsText}`;
 

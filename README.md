@@ -66,6 +66,12 @@ To utilize the summarization features, you need a Google Gemini API Key.
 ### OpenAI 429
 *Note: OpenAI integration has been replaced by Gemini. If you see OpenAI errors, ensure you have pulled the latest code and updated your `.env`.*
 
+### debug-models.ts
+If you encounter 404 errors with the Gemini API, run the debug script to test model connectivity:
+```bash
+npx ts-node src/debug-models.ts
+```
+
 ## Usage
 
 Run the tool to generate today's newsletter:

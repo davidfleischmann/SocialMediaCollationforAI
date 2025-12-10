@@ -43,7 +43,7 @@ describe('Processor', () => {
         const summary = await processor.summarize([{ title: 't', link: 'l', snippet: 's', source: 'src' }]);
 
         expect(summary).toBe('Gemini Summary');
-        expect(mockGetGenerativeModel).toHaveBeenCalledWith({ model: 'gemini-pro' });
+        expect(mockGetGenerativeModel).toHaveBeenCalledWith({ model: 'gemini-1.5-flash-001' });
         expect(mockGenerateContent).toHaveBeenCalled();
     });
 
