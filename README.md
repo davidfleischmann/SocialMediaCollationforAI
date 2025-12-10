@@ -51,23 +51,20 @@ To use the Google Custom Search API, you need a Programmable Search Engine that 
 7.  Copy the **search engine ID** (it looks like `cx=...` or a long string) and paste it into your `.env` as `SEARCH_ENGINE_ID`.
 8.  *Note: Ensure your Google Cloud Project associated with the API Key has the "Custom Search API" enabled.*
 
-### Detailed Setup: Getting the OpenAI API Key
-To utilize the summarization features, you need an OpenAI API Key.
+8.  *Note: Ensure your Google Cloud Project associated with the API Key has the "Custom Search API" enabled.*
 
-1.  Sign up or log in to the [OpenAI Platform](https://platform.openai.com/).
-2.  Navigate to the **Dashboard** -> **API keys**.
-3.  Click **Create new secret key**.
-4.  Name the key (e.g., "AI Newsletter Tool").
-5.  Copy the key (it starts with `sk-...`) and paste it into your `.env` as `OPENAI_API_KEY`.
-6.  *Note: You must have credits or a payment method added to your OpenAI account for the API to work.*
+### Detailed Setup: Getting the Gemini API Key
+To utilize the summarization features, you need a Google Gemini API Key.
+
+1.  Go to [Google AI Studio](https://aistudio.google.com/app/apikey).
+2.  Click **Create API Key**.
+3.  Copy the key and paste it into your `.env` as `GEMINI_API_KEY`.
+4.  *Note: This API is currently free (within rate limits) for many regions.*
 
 ## Troubleshooting
 
-### OpenAI 429 (Insufficient Quota)
-If you see a `RateLimitError: 429` with `insufficient_quota`:
-*   **Cause**: Your OpenAI API account has run out of credits.
-*   **Fix**: Go to [OpenAI Billing](https://platform.openai.com/account/billing/overview) and add a credit balance (e.g., $5).
-*   **Important**: A "ChatGPT Plus" subscription ($20/mo) does **not** verify you for API usage. They are separate billing systems.
+### OpenAI 429
+*Note: OpenAI integration has been replaced by Gemini. If you see OpenAI errors, ensure you have pulled the latest code and updated your `.env`.*
 
 ## Usage
 
