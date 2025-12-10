@@ -44,7 +44,18 @@ This checks:
 2.  **Verify**: Console shows "Running in SCHEDULE mode".
 3.  (Optional) Edit `SCHEDULE_CRON` to `* * * * *` (every minute) to see it trigger immediately.
 
-### 6. Microsoft Ecosystem Focus
+### 6. Date Ranges
+**Scenario 1: Weekly Summary**
+1.  Run: `npm start -- --weekly`
+2.  **Verify**: Log shows "Date Range: Weekly".
+3.  **Verify**: Output filename is like `newsletter_2025-12-03_to_2025-12-10.md` (assuming today is the 10th).
+
+**Scenario 2: Custom Range**
+1.  Run: `npm start -- --from 2025-01-01 --to 2025-01-31`
+2.  **Verify**: Log shows "Date Range: Custom (2025-01-01 to 2025-01-31)".
+3.  **Verify**: Output filename matches the range.
+
+### 7. Microsoft Ecosystem Focus
 **Scenario**: Verify search keywords.
 1.  Check `src/config.ts` or run the tool and observe logs.
 2.  **Verify**: Default keywords include "Microsoft AI", "Azure AI", "Copilot".
