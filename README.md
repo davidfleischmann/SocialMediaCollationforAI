@@ -5,14 +5,14 @@ A tool to search for LinkedIn posts about **Microsoft AI, Azure, and Copilot**, 
 ## Features
 -   **Automated Discovery**: Searches LinkedIn public posts# Default: "Microsoft AI, Azure AI, Microsoft Copilot, .NET AI, Semantic Kernel, GitHub Copilot"
 LINKEDIN_KEYWORDS="Microsoft AI, Azure AI, Microsoft Copilot, .NET AI, Semantic Kernel"PI.
--   **Smart Summarization**: Uses OpenAI to synthesize fragmented posts into a readable narrative.
+-   **Smart Summarization**: Uses Google Gemini to synthesize fragmented posts into a readable narrative.
 -   **Daily Newsletter**: Generates a clean Markdown report with a high-level summary and links to source content.
 -   **No Scraping Risks**: Relies on official Search APIs rather than brittle/risky HTML scraping.
 
 ## Prerequisites
 -   Node.js (v18+)
 -   Google Custom Search API Key & Search Engine ID
--   OpenAI API Key
+-   Google Gemini API Key
 
 ## Installation
 
@@ -64,8 +64,8 @@ To utilize the summarization features, you need a Google Gemini API Key.
 
 ## Troubleshooting
 
-### OpenAI 429
-*Note: OpenAI integration has been replaced by Gemini. If you see OpenAI errors, ensure you have pulled the latest code and updated your `.env`.*
+### Gemini Errors
+If you see Gemini errors (e.g., 429), it means you have exceeded the free tier quota. Wait for a minute or upgrade your plan.
 
 ### debug-models.ts
 If you encounter 404 errors with the Gemini API, run the debug script to test model connectivity:
