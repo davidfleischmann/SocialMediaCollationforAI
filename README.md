@@ -1,9 +1,10 @@
-# Social Media Collation for AI
+# SocialMediaCollationforAI
 
-A comprehensive tool to aggregate, filter, and summarize recent AI-related discussions from LinkedIn. It utilizes Google Custom Search to safely discover public posts and OpenAI's GPT-4 to generate a cohesive daily newsletter.
+A tool to search for LinkedIn posts about **Microsoft AI, Azure, and Copilot**, summarize them using Google Gemini, and generate a daily newsletter (Markdown/HTML).
 
 ## Features
--   **Automated Discovery**: Searches LinkedIn public posts for specified keywords (e.g., "Generative AI", "LLM") using Google Custom Search API.
+-   **Automated Discovery**: Searches LinkedIn public posts# Default: "Microsoft AI, Azure AI, Microsoft Copilot, .NET AI, Semantic Kernel, GitHub Copilot"
+LINKEDIN_KEYWORDS="Microsoft AI, Azure AI, Microsoft Copilot, .NET AI, Semantic Kernel"PI.
 -   **Smart Summarization**: Uses OpenAI to synthesize fragmented posts into a readable narrative.
 -   **Daily Newsletter**: Generates a clean Markdown report with a high-level summary and links to source content.
 -   **No Scraping Risks**: Relies on official Search APIs rather than brittle/risky HTML scraping.
