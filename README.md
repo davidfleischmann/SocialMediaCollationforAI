@@ -81,6 +81,18 @@ Run the tool to generate today's newsletter immediately:
 npm start
 ```
 
+### Date Ranges
+Run for a quick weekly summary (past 7 days):
+```bash
+npm start -- --weekly
+```
+
+Run for a specific custom date range:
+```bash
+npm start -- --from 2025-01-01 --to 2025-01-31
+```
+*(Filename will be `newsletter_2025-01-01_to_2025-01-31.md`)*
+
 ### Run on Schedule
 Run the tool in scheduler mode (keeps running and triggers based on cron):
 ```bash
