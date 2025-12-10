@@ -5,6 +5,8 @@ import { marked } from 'marked';
 import { LinkedInPost } from './collector';
 import { config } from './config';
 
+import * as googleTTS from 'google-tts-api';
+
 export class Generator {
     async createNewsletter(summary: string, posts: LinkedInPost[]) {
         const dateStr = format(new Date(), 'yyyy-MM-dd');
@@ -18,6 +20,40 @@ export class Generator {
             await this.generateHTML(dateStr, summary, posts, outputPath);
         } else {
             this.generateMarkdown(dateStr, summary, posts, outputPath);
+        }
+
+        if (config.GENERATE_AUDIO) {
+            await this.generateAudio(dateStr, summary, outputPath);
+        }
+    }
+
+    private async generateAudio(dateStr: string, text: string, outputPath: string) {
+        const filename = `newsletter_${dateStr}.mp3`;
+        console.log('🔊 Generating Audio Overview...');
+
+        try {
+            // google-tts-api has a character limit (~200 chars), so we might need to split calls.
+            // However, getAllAudioUrls or getAudioUrl might handle short texts.
+            // For longer texts like summaries, we need to be careful.
+            // Using getAllAudioBase64 provides an array of base64 strings we can join.
+
+            // Clean markdown for better TTS
+            const cleanText = text.replace(/[#*`]/g, '').replace(/\[(.*?)\]\(.*?\)/g, '$1');
+
+            const audioBase64Array = await googleTTS.getAllAudioBase64(cleanText, {
+                lang: 'en',
+                slow: false,
+                host: 'https://translate.google.com',
+                timeout: 10000,
+            });
+
+            const combinedBase64 = audioBase64Array.map(item => item.base64).join('');
+            const buffer = Buffer.from(combinedBase64, 'base64');
+
+            fs.writeFileSync(path.join(outputPath, filename), buffer);
+            console.log(`✅ Audio generated: output/${filename}`);
+        } catch (error) {
+            console.error('❌ Error generating audio:', error);
         }
     }
 

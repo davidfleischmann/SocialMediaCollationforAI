@@ -94,9 +94,17 @@ SCHEDULE_CRON="0 8 * * *"
 
 # Output Format: markdown (default) or html
 OUTPUT_FORMAT="markdown"
+
+# Detail Level: brief (default) or extended
+DETAIL_LEVEL="brief"
+
+# Audio Overview: true or false (default: false)
+GENERATE_AUDIO="false"
 ```
 
-The output will be saved in the `output/` directory, e.g., `output/newsletter_2025-12-10.md` or `.html`.
+The output will be saved in the `output/` directory, e.g.:
+- `newsletter_2025-12-10.md` (or `.html`)
+- `newsletter_2025-12-10.mp3` (if enabled)
 
 ## Testing
 

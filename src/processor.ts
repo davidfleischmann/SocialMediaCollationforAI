@@ -24,7 +24,12 @@ export class Processor {
         try {
             const model = this.genAI.getGenerativeModel({ model: "gemini-3-pro-preview" });
 
-            const prompt = `You are an expert tech newsletter writer. Summarize the following LinkedIn posts into a concise, engaging daily AI update. Focus on the key trends and interesting points. Output in Markdown.\n\nHere are the top LinkedIn posts from the last 24 hours:\n${postsText}`;
+            let promptContext = "concise, engaging daily AI update. Focus on the key trends and interesting points.";
+            if (config.DETAIL_LEVEL === 'extended') {
+                promptContext = "comprehensive, deep-dive daily AI analysis. Include key takeaways, implications for the industry, and technical details where relevant. Structure it with clear sections.";
+            }
+
+            const prompt = `You are an expert tech newsletter writer. Summarize the following LinkedIn posts into a ${promptContext} Output in Markdown.\n\nHere are the top LinkedIn posts from the last 24 hours:\n${postsText}`;
 
             const result = await model.generateContent(prompt);
             const response = await result.response;
