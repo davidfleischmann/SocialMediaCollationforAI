@@ -61,6 +61,14 @@ To utilize the summarization features, you need an OpenAI API Key.
 5.  Copy the key (it starts with `sk-...`) and paste it into your `.env` as `OPENAI_API_KEY`.
 6.  *Note: You must have credits or a payment method added to your OpenAI account for the API to work.*
 
+## Troubleshooting
+
+### OpenAI 429 (Insufficient Quota)
+If you see a `RateLimitError: 429` with `insufficient_quota`:
+*   **Cause**: Your OpenAI API account has run out of credits.
+*   **Fix**: Go to [OpenAI Billing](https://platform.openai.com/account/billing/overview) and add a credit balance (e.g., $5).
+*   **Important**: A "ChatGPT Plus" subscription ($20/mo) does **not** verify you for API usage. They are separate billing systems.
+
 ## Usage
 
 Run the tool to generate today's newsletter:

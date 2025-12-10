@@ -31,7 +31,13 @@ export class Processor {
             });
 
             return completion.choices[0].message.content || "Failed to generate summary.";
-        } catch (error) {
+        } catch (error: any) {
+            if (error?.status === 429 || error?.code === 'insufficient_quota') {
+                console.error('\n❌ OpenAI Error: You have exceeded your quota or have no credits.');
+                console.error('👉 Fix: Go to https://platform.openai.com/account/billing/overview and add credits to your account.');
+                console.error('   Note: ChatGPT Plus subscriptions do NOT cover API usage.\n');
+                return "Summary unavailable: OpenAI Quota Exceeded (Check Billing).";
+            }
             console.error('Error generating summary:', error);
             return "Error generating summary. Check API keys.";
         }
