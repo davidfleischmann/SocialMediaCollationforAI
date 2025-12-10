@@ -115,6 +115,10 @@ GENERATE_AUDIO="false"
 
 # Max posts to collect (pagination).
 MAX_POSTS="20"
+
+# Microsoft Teams Integration
+PUBLISH_TO_TEAMS="true"
+TEAMS_WEBHOOK_URL="https://outlook.office.com/webhook/..."
 ```
 
 The output will be saved in the `output/` directory, e.g.:

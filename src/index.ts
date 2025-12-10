@@ -2,6 +2,7 @@ import schedule from 'node-cron';
 import { Collector } from './collector';
 import { Processor } from './processor';
 import { Generator } from './generator';
+import { TeamsPublisher } from './publisher';
 import { config } from './config';
 
 async function main() {
@@ -11,6 +12,7 @@ async function main() {
         const collector = new Collector();
         const processor = new Processor();
         const generator = new Generator();
+        const publisher = new TeamsPublisher();
 
         try {
             // 1. Collect
@@ -24,6 +26,14 @@ async function main() {
             // 3. Generate
             await generator.createNewsletter(summary, posts, dateRange);
             console.log('Done!');
+
+            // 4. Publish
+            // We can just use the summary text. For the link, we don't have a public URL for the local file,
+            // so we'll omit it or put a placeholder if needed. 
+            // Ideally, this tool runs in a CI/CD where we might have a robust link, but for local:
+            const title = dateRange ? `AI Newsletter (${dateRange.start} - ${dateRange.end})` : `Daily AI Newsletter`;
+            await publisher.publish(title, summary);
+
         } catch (error) {
             console.error('Error in main execution:', error);
         }

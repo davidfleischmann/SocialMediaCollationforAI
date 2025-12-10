@@ -66,3 +66,11 @@ This checks:
 **Scenario**: Verify search keywords.
 1.  Check `src/config.ts` or run the tool and observe logs.
 2.  **Verify**: Default keywords include "Microsoft AI", "Azure AI", "Copilot".
+
+### 9. Microsoft Teams Integration
+**Scenario**: Verify posting to Teams.
+1.  Configure `PUBLISH_TO_TEAMS=true` and set a valid `TEAMS_WEBHOOK_URL` in `.env`.
+2.  Run: `npm start`
+3.  **Verify**: Log shows "Posting summary to Microsoft Teams...".
+4.  **Verify**: The message appears in the Teams channel.
+5.  *Negative Test*: Set `PUBLISH_TO_TEAMS=true` but remove URL. Log should warn about missing URL.
