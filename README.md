@@ -51,6 +51,16 @@ To use the Google Custom Search API, you need a Programmable Search Engine that 
 7.  Copy the **search engine ID** (it looks like `cx=...` or a long string) and paste it into your `.env` as `SEARCH_ENGINE_ID`.
 8.  *Note: Ensure your Google Cloud Project associated with the API Key has the "Custom Search API" enabled.*
 
+### Detailed Setup: Getting the OpenAI API Key
+To utilize the summarization features, you need an OpenAI API Key.
+
+1.  Sign up or log in to the [OpenAI Platform](https://platform.openai.com/).
+2.  Navigate to the **Dashboard** -> **API keys**.
+3.  Click **Create new secret key**.
+4.  Name the key (e.g., "AI Newsletter Tool").
+5.  Copy the key (it starts with `sk-...`) and paste it into your `.env` as `OPENAI_API_KEY`.
+6.  *Note: You must have credits or a payment method added to your OpenAI account for the API to work.*
+
 ## Usage
 
 Run the tool to generate today's newsletter:
