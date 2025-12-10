@@ -90,9 +90,12 @@ Configuration via `.env`:
 ```env
 # Default: 0 8 * * * (Every day at 8:00 AM)
 SCHEDULE_CRON="0 8 * * *"
+
+# Output Format: markdown (default) or html
+OUTPUT_FORMAT="markdown"
 ```
 
-The output will be saved in the `output/` directory, e.g., `output/newsletter_2025-12-10.md`.
+The output will be saved in the `output/` directory, e.g., `output/newsletter_2025-12-10.md` or `.html`.
 
 ## Testing
 
