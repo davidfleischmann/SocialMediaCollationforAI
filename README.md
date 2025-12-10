@@ -112,6 +112,9 @@ DETAIL_LEVEL="brief"
 
 # Audio Overview: true or false (default: false)
 GENERATE_AUDIO="false"
+
+# Max posts to collect (pagination).
+MAX_POSTS="20"
 ```
 
 The output will be saved in the `output/` directory, e.g.:

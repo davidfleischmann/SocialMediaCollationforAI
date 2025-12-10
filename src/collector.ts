@@ -10,7 +10,7 @@ export interface LinkedInPost {
 
 export class Collector {
     async fetchPosts(dateRange?: { start: string, end: string }): Promise<LinkedInPost[]> {
-        console.log(`Searching for recent AI posts on LinkedIn... ${dateRange ? `(${dateRange.start} - ${dateRange.end})` : '(Last 24h)'}`);
+        console.log(`Searching for recent AI posts on LinkedIn... ${dateRange ? `(${dateRange.start} - ${dateRange.end})` : '(Last 24h)'} [Max: ${config.MAX_POSTS}]`);
 
         // Check if we have API keys. If not, return dummy data for safe testing.
         if (!config.SEARCH_API_KEY || !config.SEARCH_ENGINE_ID) {
@@ -22,36 +22,57 @@ export class Collector {
             const allPosts: LinkedInPost[] = [];
             const keywords = config.LINKEDIN_KEYWORDS;
 
-            // Simple implementation: Search for "site:linkedin.com/posts [Keyword]"
-            // We limit to 1-2 keywords to avoid quota exhaustion in this demo.
+            // Loop until we reach MAX_POSTS or exhaust results
+            let startIndex = 1;
+            const maxResults = config.MAX_POSTS;
+
+            // We can search for multiple keywords if needed, but keeping it simple for now to 1st keyword
             const query = `site:linkedin.com/posts ${keywords[0]}`;
 
-            const params: any = {
-                key: config.SEARCH_API_KEY,
-                cx: config.SEARCH_ENGINE_ID,
-                q: query,
-            };
+            while (allPosts.length < maxResults) {
+                const params: any = {
+                    key: config.SEARCH_API_KEY,
+                    cx: config.SEARCH_ENGINE_ID,
+                    q: query,
+                    start: startIndex,
+                    num: 10, // Google API Max per request
+                };
 
-            if (dateRange) {
-                // Convert YYYY-MM-DD to YYYYMMDD
-                const start = dateRange.start.replace(/-/g, '');
-                const end = dateRange.end.replace(/-/g, '');
-                params.sort = `date:r:${start}:${end}`;
-            } else {
-                params.dateRestrict = 'd1'; // Default: Last 24h
-            }
+                if (dateRange) {
+                    const start = dateRange.start.replace(/-/g, '');
+                    const end = dateRange.end.replace(/-/g, '');
+                    params.sort = `date:r:${start}:${end}`;
+                } else {
+                    params.dateRestrict = 'd1';
+                }
 
-            const response = await axios.get('https://www.googleapis.com/customsearch/v1', { params });
+                const response = await axios.get('https://www.googleapis.com/customsearch/v1', { params });
 
-            if (response.data.items) {
-                response.data.items.forEach((item: any) => {
-                    allPosts.push({
-                        title: item.title,
-                        link: item.link,
-                        snippet: item.snippet,
-                        source: 'Google Search',
+                if (response.data.items) {
+                    response.data.items.forEach((item: any) => {
+                        if (allPosts.length < maxResults) {
+                            allPosts.push({
+                                title: item.title,
+                                link: item.link,
+                                snippet: item.snippet,
+                                source: 'Google Search',
+                            });
+                        }
                     });
-                });
+
+                    // Prepare for next page
+                    startIndex += 10;
+
+                    // Stop if no next page logic available or fewer than 10 items returned (end of list)
+                    if (!response.data.queries?.nextPage || response.data.items.length < 10) {
+                        break;
+                    }
+
+                    // Safety break to prevent infinite loops or huge costs
+                    if (startIndex > 100) break;
+                } else {
+                    break; // No items found
+                }
             }
 
             return allPosts;
