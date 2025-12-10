@@ -9,8 +9,8 @@ export interface LinkedInPost {
 }
 
 export class Collector {
-    async fetchPosts(): Promise<LinkedInPost[]> {
-        console.log('Searching for recent AI posts on LinkedIn...');
+    async fetchPosts(dateRange?: { start: string, end: string }): Promise<LinkedInPost[]> {
+        console.log(`Searching for recent AI posts on LinkedIn... ${dateRange ? `(${dateRange.start} - ${dateRange.end})` : '(Last 24h)'}`);
 
         // Check if we have API keys. If not, return dummy data for safe testing.
         if (!config.SEARCH_API_KEY || !config.SEARCH_ENGINE_ID) {
@@ -26,14 +26,22 @@ export class Collector {
             // We limit to 1-2 keywords to avoid quota exhaustion in this demo.
             const query = `site:linkedin.com/posts ${keywords[0]}`;
 
-            const response = await axios.get('https://www.googleapis.com/customsearch/v1', {
-                params: {
-                    key: config.SEARCH_API_KEY,
-                    cx: config.SEARCH_ENGINE_ID,
-                    q: query,
-                    dateRestrict: 'd1', // Last 24h
-                },
-            });
+            const params: any = {
+                key: config.SEARCH_API_KEY,
+                cx: config.SEARCH_ENGINE_ID,
+                q: query,
+            };
+
+            if (dateRange) {
+                // Convert YYYY-MM-DD to YYYYMMDD
+                const start = dateRange.start.replace(/-/g, '');
+                const end = dateRange.end.replace(/-/g, '');
+                params.sort = `date:r:${start}:${end}`;
+            } else {
+                params.dateRestrict = 'd1'; // Default: Last 24h
+            }
+
+            const response = await axios.get('https://www.googleapis.com/customsearch/v1', { params });
 
             if (response.data.items) {
                 response.data.items.forEach((item: any) => {
