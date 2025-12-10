@@ -55,7 +55,14 @@ This checks:
 2.  **Verify**: Log shows "Date Range: Custom (2025-01-01 to 2025-01-31)".
 3.  **Verify**: Output filename matches the range.
 
-### 7. Microsoft Ecosystem Focus
+### 7. Pagination / Max Posts
+**Scenario**: Verify fetching more than 10 posts.
+1.  In `.env`, set `MAX_POSTS=20` (or leave default).
+2.  Run: `npm start -- --weekly` (or any command).
+3.  **Verify**: Log shows "[Max: 20]".
+4.  **Verify**: Log shows "Found 20 posts" (if enough data exists).
+
+### 8. Microsoft Ecosystem Focus
 **Scenario**: Verify search keywords.
 1.  Check `src/config.ts` or run the tool and observe logs.
 2.  **Verify**: Default keywords include "Microsoft AI", "Azure AI", "Copilot".
