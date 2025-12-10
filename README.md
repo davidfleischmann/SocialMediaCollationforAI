@@ -74,10 +74,22 @@ npx ts-node src/debug-models.ts
 
 ## Usage
 
-Run the tool to generate today's newsletter:
-
+### Run Once
+Run the tool to generate today's newsletter immediately:
 ```bash
-npx ts-node src/index.ts
+npm start
+```
+
+### Run on Schedule
+Run the tool in scheduler mode (keeps running and triggers based on cron):
+```bash
+npm start -- --schedule
+```
+
+Configuration via `.env`:
+```env
+# Default: 0 8 * * * (Every day at 8:00 AM)
+SCHEDULE_CRON="0 8 * * *"
 ```
 
 The output will be saved in the `output/` directory, e.g., `output/newsletter_2025-12-10.md`.
